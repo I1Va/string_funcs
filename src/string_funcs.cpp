@@ -93,3 +93,17 @@ char *read_text_from_file(const char *path) {
     }
     return data;
 }
+
+bool write_text_to_file(char *text, const char *path) {
+    FILE *output_file_ptr = fopen(path, "wb");
+    if (output_file_ptr == NULL) {
+        debug("file '%s' open failed", path);
+        return false;
+    }
+    fprintf(output_file_ptr, "%s", text);
+    if (fclose(output_file_ptr)) {
+        debug("file '%s' close failed", path)
+        return false;
+    }
+    return true;
+}
