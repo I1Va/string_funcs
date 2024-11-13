@@ -31,6 +31,13 @@ int main() { // EXAMPLES
     printf("s3: '%s'\n", str3.str_ptr);
 
     printf("FINAL: storage prev_chunk : [%p]\n", storage->prev_chunk);
+
+
+
+    char *text = read_text_from_file("test.txt");
+
+    printf("\n\n%s", text);
+
     str_storage_t_dtor(storage);
 
     return 0;

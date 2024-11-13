@@ -1,6 +1,8 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "string_funcs.h"
 #include "general.h"
@@ -56,4 +58,38 @@ char *get_new_str_ptr(str_storage_t **storage, const size_t len) {
     (*storage)->idx += len + 1;
 
     return string_ptr;
+}
+
+int get_file_sz(const char *path) {
+    struct stat buf = {};
+    if (stat(path, &buf) != 0) {
+        debug("stat error")
+        return -1;
+    }
+
+    return (int) buf.st_size;
+}
+
+char *read_text_from_file(const char *path) {
+    int file_sz = get_file_sz(path);
+    if (file_sz < 0) {
+        debug("file_sz invalid value : {%d}", file_sz)
+        return NULL;
+    }
+
+    FILE *file = fopen(path, "rb");
+    if (file == NULL) {
+        debug("file '%s' open failed", path)
+        return NULL;
+    }
+    char *data = (char *) calloc((size_t) file_sz + 1, sizeof(char)); // save one byte for '\0'
+
+    size_t fread_cnt = fread(data, sizeof(char), (size_t) file_sz, file);
+    assert(fread_cnt == (size_t) file_sz);
+
+    if (fclose(file)) {
+        debug("file '%s' close failed", path)
+        return NULL;
+    }
+    return data;
 }

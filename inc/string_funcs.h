@@ -20,5 +20,7 @@ struct str_storage_t {
 str_storage_t *str_storage_t_ctor(const size_t chunk_size);
 void str_storage_t_dtor(str_storage_t *storage);
 char *get_new_str_ptr(str_storage_t **storage, const size_t len);
+char *read_text_from_file(const char *path);
+int get_file_sz(const char *path);
 
 #endif // STRING_FUNCS_H
