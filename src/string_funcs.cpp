@@ -135,5 +135,5 @@ void clear_text(str_t *text, const char sims[]) {
         text->str_ptr[left++] = '\0';
     }
 
-    printf("[%s]", text->str_ptr);
+    // printf("[%s]", text->str_ptr);
 }
