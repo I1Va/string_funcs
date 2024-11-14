@@ -24,10 +24,16 @@ str_storage_t *str_storage_t_ctor(const size_t chunk_size) {
 }
 
 void str_storage_t_dtor(str_storage_t *storage) {
-    assert(storage != NULL);
+    if (storage == NULL) {
+        debug("storage nullptr")
+        return;
+    }
 
     if (storage->prev_chunk == NULL) {
-        assert(storage->data != NULL);
+        if (storage->data == NULL) {
+            debug("storage->data nullptr");
+            return;
+        }
         FREE(storage->data)
         FREE(storage)
         return;
