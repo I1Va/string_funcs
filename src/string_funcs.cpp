@@ -70,40 +70,71 @@ int get_file_sz(const char *path) {
     return (int) buf.st_size;
 }
 
-char *read_text_from_file(const char *path) {
+str_t read_text_from_file(const char *path) {
     int file_sz = get_file_sz(path);
+    str_t str = {};
+
     if (file_sz < 0) {
         debug("file_sz invalid value : {%d}", file_sz)
-        return NULL;
+        return {};
     }
+
+    str.len = (size_t) file_sz;
 
     FILE *file = fopen(path, "rb");
     if (file == NULL) {
         debug("file '%s' open failed", path)
-        return NULL;
+        return {};
     }
-    char *data = (char *) calloc((size_t) file_sz + 1, sizeof(char)); // save one byte for '\0'
 
-    size_t fread_cnt = fread(data, sizeof(char), (size_t) file_sz, file);
+    str.str_ptr = (char *) calloc((size_t) file_sz + 1, sizeof(char)); // save one byte for '\0'
+
+    size_t fread_cnt = fread(str.str_ptr, sizeof(char), (size_t) file_sz, file);
     assert(fread_cnt == (size_t) file_sz);
 
     if (fclose(file)) {
         debug("file '%s' close failed", path)
-        return NULL;
+        return {};
     }
-    return data;
+    return str;
 }
 
-bool write_text_to_file(char *text, const char *path) {
+bool write_text_to_file(const str_t *text, const char *path) {
+    assert(text != NULL);
+    assert(path != NULL);
+
     FILE *output_file_ptr = fopen(path, "wb");
     if (output_file_ptr == NULL) {
         debug("file '%s' open failed", path);
         return false;
     }
-    fprintf(output_file_ptr, "%s", text);
+
+    fprintf(output_file_ptr, "%s", text->str_ptr);
     if (fclose(output_file_ptr)) {
         debug("file '%s' close failed", path)
         return false;
     }
+
     return true;
+}
+
+void clear_text(str_t *text, const char sims[]) {
+    size_t left = 0;
+    size_t right = 0;
+
+    while (right < text->len) {
+        if (strchr(sims, text->str_ptr[right]) == NULL) {
+            text->str_ptr[left] = text->str_ptr[right];
+            left++;
+            right++;
+        } else {
+            right++;
+        }
+    }
+
+    while (left < text->len) {
+        text->str_ptr[left++] = '\0';
+    }
+
+    printf("[%s]", text->str_ptr);
 }

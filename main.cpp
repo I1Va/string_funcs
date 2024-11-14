@@ -7,8 +7,6 @@
 
 #include "string_funcs.h"
 
-
-
 int main() { // EXAMPLES
     str_storage_t *storage = str_storage_t_ctor(16);
 
@@ -26,17 +24,17 @@ int main() { // EXAMPLES
     strncpy(str3.str_ptr, "goooooool", str3.len);
 
 
-    printf("s1: '%s'\n", str1.str_ptr);
-    printf("s2: '%s'\n", str2.str_ptr);
-    printf("s3: '%s'\n", str3.str_ptr);
+    // printf("s1: '%s'\n", str1.str_ptr);
+    // printf("s2: '%s'\n", str2.str_ptr);
+    // printf("s3: '%s'\n", str3.str_ptr);
 
-    printf("FINAL: storage prev_chunk : [%p]\n", storage->prev_chunk);
+    // printf("FINAL: storage prev_chunk : [%p]\n", storage->prev_chunk);
 
 
+    str_t text = read_text_from_file("test.txt");
 
-    char *text = read_text_from_file("test.txt");
-
-    printf("\n\n%s", text);
+    // printf("\n\n%s", text);
+    clear_text(&text, "\n ");
 
     str_storage_t_dtor(storage);
 
