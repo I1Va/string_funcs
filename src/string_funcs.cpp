@@ -49,7 +49,6 @@ char *get_new_str_ptr(str_storage_t **storage, const size_t len) {
 
         *storage = str_storage_t_ctor((*storage)->chunk_size);
         (*storage)->prev_chunk = prev_chunk;
-        printf("storage [%p] prev_chunk: [%p]\n", storage, (*storage)->prev_chunk);
 
         return get_new_str_ptr(storage, len);
     }
