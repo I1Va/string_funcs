@@ -29,6 +29,8 @@ void str_storage_t_dtor(str_storage_t *storage) {
         return;
     }
 
+    printf("storage: [%p],  prev: [%p]\n", storage, storage->prev_chunk);
+
     if (storage->prev_chunk == NULL) {
         if (storage->data == NULL) {
             debug("storage->data nullptr");
@@ -40,12 +42,14 @@ void str_storage_t_dtor(str_storage_t *storage) {
     }
 
     str_storage_t_dtor((str_storage_t *) storage->prev_chunk);
+    FREE(storage->data);
+    FREE(storage);
 }
 
 char *get_new_str_ptr(str_storage_t **storage, const size_t len) {
     assert(storage != NULL);
 
-    if (len + 1 > (*storage)->chunk_size) {
+    if (len + 1 >= (*storage)->chunk_size) {
         debug("string doesn't fit into chunk. chunk_size: {%lu}, string_len: {%lu}", (*storage)->chunk_size, len)
         return NULL;
     }

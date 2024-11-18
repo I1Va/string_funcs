@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <cstdlib>
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
@@ -7,7 +8,20 @@
 
 #include "string_funcs.h"
 
-int main() { // EXAMPLES
+
+void get_string(FILE *stream, char *bufer, str_storage_t **storage) {
+    assert(stream != NULL);
+    assert(bufer != NULL);
+    assert(storage != NULL);
+
+    int str_len = 0;
+
+    fscanf(stream, "%s%n", bufer, &str_len);
+
+    printf("name : '%s', cnt : {%d}\n", bufer, str_len);
+}
+
+void test1() {
     str_storage_t *storage = str_storage_t_ctor(16);
 
     str_t str1 = {NULL, 13};
@@ -37,6 +51,33 @@ int main() { // EXAMPLES
     clear_text(&text, "\n ");
 
     str_storage_t_dtor(storage);
+}
 
-    return 0;
+void string_storage_test() {
+    size_t chunk_size = 32;
+
+    str_storage_t *storage = str_storage_t_ctor(chunk_size);
+
+    for (size_t i = 0; i < 10; i++) {
+        size_t len =  ((size_t) rand()) % (chunk_size - 2);
+        printf("len 1212: {%lu}\n", len);
+        get_new_str_ptr(&storage, len);
+    }
+
+    str_storage_t_dtor(storage);
+}
+
+int main() { // EXAMPLES
+    size_t chunk_size = 32;
+
+    str_storage_t *storage = str_storage_t_ctor(chunk_size);
+
+    for (size_t i = 0; i < 3; i++) {
+        size_t len =  ((size_t) rand()) % (chunk_size - 2);
+        printf("len : {%lu}\n", len);
+        get_new_str_ptr(&storage, len);
+    }
+
+    printf("main : storage: [%p],  prev: [%p]\n", storage, storage->prev_chunk);
+    str_storage_t_dtor(storage);
 }
