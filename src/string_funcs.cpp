@@ -29,8 +29,6 @@ void str_storage_t_dtor(str_storage_t *storage) {
         return;
     }
 
-    printf("storage: [%p],  prev: [%p]\n", storage, storage->prev_chunk);
-
     if (storage->prev_chunk == NULL) {
         if (storage->data == NULL) {
             debug("storage->data nullptr");
