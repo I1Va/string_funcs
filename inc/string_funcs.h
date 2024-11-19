@@ -25,6 +25,6 @@ str_t read_text_from_file(const char *path);
 bool write_text_to_file(const str_t *text, const char *path);
 
 int get_file_sz(const char *path);
-void clear_text(str_t *text, const char sims[]);
+void remove_chars_from_text(str_t *text, const char sims[]);
 
 #endif // STRING_FUNCS_H

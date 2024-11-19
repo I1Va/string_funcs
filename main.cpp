@@ -48,7 +48,7 @@ void test1() {
     str_t text = read_text_from_file("test.txt");
 
     // printf("\n\n%s", text);
-    clear_text(&text, "\n ");
+    remove_chars_from_text(&text, "\n ");
 
     str_storage_t_dtor(storage);
 }
@@ -72,7 +72,7 @@ int main() { // EXAMPLES
 
     str_storage_t *storage = str_storage_t_ctor(chunk_size);
 
-    for (size_t i = 0; i < 3; i++) {
+    for (size_t i = 0; i < 100; i++) {
         size_t len =  ((size_t) rand()) % (chunk_size - 2);
         printf("len : {%lu}\n", len);
         get_new_str_ptr(&storage, len);

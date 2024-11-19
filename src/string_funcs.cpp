@@ -125,7 +125,7 @@ bool write_text_to_file(const str_t *text, const char *path) {
     return true;
 }
 
-void clear_text(str_t *text, const char sims[]) {
+void remove_chars_from_text(str_t *text, const char sims[]) {
     size_t left = 0;
     size_t right = 0;
 
