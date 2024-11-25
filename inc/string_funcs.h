@@ -29,7 +29,10 @@ int get_file_sz(const char *path);
 void remove_chars_from_text(str_t *text, const char sims[]);
 
 size_t get_max_str_len(size_t n, ...);
+
 void fprintf_str_block(FILE *stream, const size_t indent_sz, const size_t block_sz, const char *string);
 void fprintf_indent_str(FILE *stream, const size_t indent_sz, const char fmt[], ...);
+void fprintf_border(FILE* stream, const char bord_char, const size_t bord_sz, bool new_line);
+void fprintf_title(FILE *stream, const char tittle[], const char bord_char, const size_t bord_sz);
 
 #endif // STRING_FUNCS_H
