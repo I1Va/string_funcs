@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdarg.h>
 
 #include "string_funcs.h"
 #include "general.h"
@@ -23,7 +24,43 @@ str_storage_t *str_storage_t_ctor(const size_t chunk_size) {
     return storage;
 }
 
-void str_storage_t_dtor(str_storage_t *storage) {
+size_t get_max_str_len(size_t n, ...) {
+    size_t max_str_len = 0;
+    va_list factor;
+    va_start(factor, n);
+
+    for(size_t i = 0; i < n; i++) {
+        char *str_ptr = va_arg(factor, char *); // FIXME: почему, при strlen(va_arg(factor, char *)) возникает SEGV?
+        max_str_len = MAX(max_str_len, strlen(str_ptr));
+    }
+
+    va_end(factor);
+    return max_str_len;
+}
+
+void fprintf_str_block(FILE *stream, const size_t indent_sz, const size_t block_sz, const char *string) {
+    assert(string != NULL);
+
+    int str_len = (int) strlen(string);
+
+    if ((int) block_sz < str_len) {
+        debug("string crawls out of the block : string[%d] : '%s', block_sz : [%lu]", str_len, string, block_sz);
+        str_len = (int) block_sz;
+    }
+    fprintf(stream, "%*.s", (int) indent_sz, "");
+    fprintf(stream, "%*s%*.s", str_len, string, (int) block_sz - str_len, "");
+}
+
+void fprintf_indent_str(FILE *stream, const size_t indent_sz, const char fmt[], ...) {
+    va_list args;
+    fprintf(stream, "%*.s", (int) indent_sz, "");
+    va_start(args, fmt);
+    vfprintf(stream, fmt, args);
+
+    va_end(args);
+}
+
+void str_storage_t_dtor(str_storage_t *storage) { // Переписать алокатор на все типы void *
     if (storage == NULL) {
         debug("storage nullptr")
         return;
@@ -39,7 +76,7 @@ void str_storage_t_dtor(str_storage_t *storage) {
         return;
     }
 
-    str_storage_t_dtor((str_storage_t *) storage->prev_chunk);
+    str_storage_t_dtor((str_storage_t *) storage->prev_chunk); // FIXME: while prev chunk != NULL
     FREE(storage->data);
     FREE(storage);
 }

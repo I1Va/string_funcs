@@ -31,6 +31,9 @@ const size_t time_nmemb = 16;
 #define fprintf_html_black(stream, str_, ...) fprintf(stream, HTML_BLACK str_, ##__VA_ARGS__)
 #define fprintf_html_yel(stream, str_, ...) fprintf(stream, HTML_YEL str_, ##__VA_ARGS__)
 
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
+
 #define CLEAR_MEMORY(mark) goto mark;
 
 #define FREE(ptr)              \
@@ -40,9 +43,7 @@ const size_t time_nmemb = 16;
 
 #ifdef _DEBUG
     #define debug(str_, ...) fprintf_red(stderr, "{%s} [%s: %d]: descr{" str_ "}\n", __FILE_NAME__, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-    #define DEBUG_LIST_ERROR(code) fprintf_red(stderr, "{%s} [%s: %d]: descr{%s}\n", __FILE_NAME__, __PRETTY_FUNCTION__, __LINE__, stkerr_get_descr(code));
     #define ON_DEBUG(...) __VA_ARGS__
-
 #else
     #define debug(str_, ...) ;
     #define ON_DEBUG(...)

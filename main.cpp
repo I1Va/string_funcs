@@ -22,16 +22,14 @@ void get_string(FILE *stream, char *bufer, str_storage_t **storage) {
 }
 
 void test1() {
-    str_storage_t *storage = str_storage_t_ctor(16);
+    str_storage_t *storage = str_storage_t_ctor(16); // FIXME: рекурсия плохо
 
-    str_t str1 = {NULL, 13};
-    str1.str_ptr = get_new_str_ptr(&storage, str1.len);
-    strncpy(str1.str_ptr, "pupikapi", str1.len);
+    str_t str1 = {get_new_str_ptr(&storage, 13), 13};
+    strncpy(str1.str_ptr, "pupikapi", str1.len + 1);
 
     // printf("storage_idx: %lu", storage.idx);
-    str_t str2 = {NULL, 4};
-    str2.str_ptr = get_new_str_ptr(&storage, str2.len);
-    strncpy(str2.str_ptr, "boom", str2.len);
+    str_t str2 = {get_new_str_ptr(&storage, 4), 4};
+    strncpy(str2.str_ptr, "boom", str2.len + 1);
 
     str_t str3 = {NULL, 10};
     str3.str_ptr = get_new_str_ptr(&storage, str3.len);

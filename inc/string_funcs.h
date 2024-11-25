@@ -2,6 +2,7 @@
 #define STRING_FUNCS_H
 
 #include <string.h>
+#include <stdio.h>
 
 struct str_t {
     char *str_ptr;
@@ -26,5 +27,9 @@ bool write_text_to_file(const str_t *text, const char *path);
 
 int get_file_sz(const char *path);
 void remove_chars_from_text(str_t *text, const char sims[]);
+
+size_t get_max_str_len(size_t n, ...);
+void fprintf_str_block(FILE *stream, const size_t indent_sz, const size_t block_sz, const char *string);
+void fprintf_indent_str(FILE *stream, const size_t indent_sz, const char fmt[], ...);
 
 #endif // STRING_FUNCS_H
