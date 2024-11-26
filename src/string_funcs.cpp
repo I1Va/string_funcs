@@ -198,9 +198,11 @@ void remove_chars_from_text(str_t *text, const char sims[]) {
         }
     }
 
+    size_t text_new_size = left;
+
     while (left < text->len) {
         text->str_ptr[left++] = '\0';
     }
 
-    // printf("[%s]", text->str_ptr);
+    text->len = text_new_size;
 }
