@@ -38,6 +38,17 @@ size_t get_max_str_len(size_t n, ...) {
     return max_str_len;
 }
 
+size_t get_max_str_len_from_arr(size_t n, char **name_table) {
+    size_t max_str_len = 0;
+
+    for(size_t i = 0; i < n; i++) {
+        char *str_ptr = name_table[i];
+        max_str_len = MAX(max_str_len, strlen(str_ptr));
+    }
+
+    return max_str_len;
+}
+
 void fprintf_str_block(FILE *stream, const size_t indent_sz, const size_t block_sz, const char *string) {
     assert(string != NULL);
 

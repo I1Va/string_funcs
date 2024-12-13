@@ -29,6 +29,7 @@ int get_file_sz(const char *path);
 void remove_chars_from_text(str_t *text, const char sims[]);
 
 size_t get_max_str_len(size_t n, ...);
+size_t get_max_str_len_from_arr(size_t n, char **name_table);
 
 void fprintf_str_block(FILE *stream, const size_t indent_sz, const size_t block_sz, const char *string);
 void fprintf_indent_str(FILE *stream, const size_t indent_sz, const char fmt[], ...);
