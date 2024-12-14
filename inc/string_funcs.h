@@ -36,4 +36,7 @@ void fprintf_indent_str(FILE *stream, const size_t indent_sz, const char fmt[], 
 void fprintf_border(FILE* stream, const char bord_char, const size_t bord_sz, bool new_line);
 void fprintf_title(FILE *stream, const char tittle[], const char bord_char, const size_t bord_sz);
 
+void fprintf_bin(FILE *stream, int mask);
+void get_bit_str(int mask, char res_str[], const size_t n_bits);
+
 #endif // STRING_FUNCS_H

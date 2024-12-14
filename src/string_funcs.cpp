@@ -217,3 +217,38 @@ void remove_chars_from_text(str_t *text, const char sims[]) {
 
     text->len = text_new_size;
 }
+
+void fprintf_bin(FILE *stream, int mask) {
+    int start_mask = mask;
+
+    const size_t bit_len = sizeof(mask) * 8;
+    char res_str[bit_len + 1] = {};
+    size_t res_idx = 0;
+
+    char sims[] = "01";
+
+    while (mask > 0) {
+        res_str[res_idx++] = sims[mask % 2];
+        mask /= 2;
+    }
+    while (res_idx < bit_len) {
+        res_str[res_idx++] = '0';
+    }
+
+    fprintf(stream, "bin[%10d]: '%s'\n", start_mask, res_str);
+}
+
+void get_bit_str(int mask, char res_str[], const size_t n_bits) {
+    assert(res_str != NULL);
+
+    size_t res_idx = 0;
+
+    size_t cnt_chars = 0;
+    while (mask > 0 && res_idx < n_bits) {
+        res_str[res_idx++] = (char) (mask % 2) + '0';
+        mask /= 2;
+    }
+    while (res_idx < n_bits) {
+        res_str[res_idx++] = '0';
+    }
+}
