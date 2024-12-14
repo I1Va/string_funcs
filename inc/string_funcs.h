@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdio.h>
 
+const size_t STR_F_BORDER_SZ = 128;
+
 struct str_t {
     char *str_ptr;
     size_t len;
