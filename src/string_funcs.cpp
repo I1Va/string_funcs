@@ -83,6 +83,7 @@ void fprintf_border(FILE* stream, const char bord_char, const size_t bord_sz, bo
 
 void fprintf_title(FILE *stream, const char tittle[], const char bord_char, const size_t bord_sz) {
     assert(tittle != NULL);
+
     size_t tittle_sz = strlen(tittle);
     if (bord_sz < tittle_sz) {
         return;
